@@ -50,14 +50,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'item-container';  
             itemDiv.innerHTML = `
-                <img src="${item.image}" alt="${item.name}">
-                <div class="item-details">
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-price">${item.price} Rs/${unit}</span>
-                    <input type="number" min="0" step="0.1" data-name="${item.name}" data-price="${item.price}" data-unit="${unit}">
-                    <button type="button" class="add-to-cart" data-name="${item.name}" data-price="${item.price}" data-unit="${unit}">
-                        <i class="fas fa-cart-plus"></i> Add to Cart
-                    </button>
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">${item.price} Rs/${unit}</span>
+                <label for="${item.name}-quantity">Quantity:</label>
+                <input id="${item.name}-quantity" type="number" min="0" step="0.1" data-name="${item.name}" data-price="${item.price}" data-unit="${unit}" data-has-listeners="true" title="Enter the quantity of ${item.name}">
+                <button type="button" class="add-to-cart" data-name="${item.name}" data-price="${item.price}" data-unit="${unit}">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+            </div>
+        `;
             `;
             section.appendChild(itemDiv);
         });
