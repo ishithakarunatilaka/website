@@ -547,3 +547,16 @@ tfoot {
   border-radius: 1px 60px;
 
 }
+.remove-button{
+  width: 40%;
+  border-radius: 20px;
+  padding: 2%;
+  background-color: #fe0303;
+  cursor: pointer;
+  color: white;
+  transition: ease-in-out 0.3s;
+}
+
+.remove-button:active{
+  transform: scale(0.95);
+}
