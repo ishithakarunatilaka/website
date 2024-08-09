@@ -198,130 +198,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     });
 
-    document.getElementById('applyFavourites').addEventListener('click', function() {
-        const favouriteOrder = JSON.parse(localStorage.getItem('favouriteOrder') || '[]');
-        const inputs = orderForm.querySelectorAll('input[type="number"]');
-        inputs.forEach(input => {
-            input.value = '';
+    const debouncedUpdateOrderSummary = debounce(updateOrderSummary, 300);
+
+    orderForm.addEventListener('input', debouncedUpdateOrderSummary);
+
+    function debounce(func, delay) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    // Load async scripts after the page has loaded
+    const loadScripts = async () => {
+        const { calculateDiscount } = await import('./discount.js');
+        document.getElementById('applyDiscount').addEventListener('click', () => {
+            const discount = parseFloat(document.getElementById('discountInput').value) || 0;
+            const discountedPrice = calculateDiscount(totalPriceElem.textContent, discount);
+            totalPriceElem.textContent = discountedPrice.toFixed(2);
         });
-
-        // Clear the existing order summary table
-        orderSummary.innerHTML = '';
-        let totalPrice = 0;
-
-        favouriteOrder.forEach(item => {
-            const input = orderForm.querySelector(`input[data-name="${item.name}"]`);
-            if (input) {
-                input.value = item.quantity;
-
-                // Add item to order summary table
-                const price = parseFloat(input.getAttribute('data-price'));
-                const unit = input.getAttribute('data-unit');
-                const itemPrice = item.quantity * price;
-                totalPrice += itemPrice;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.name}</td>
-                    <td>${item.quantity} ${unit}</td>
-                    <td>${itemPrice.toFixed(2)}</td>
-                    <td><button type="button" class="remove-button">Remove</button></td>
-                `;
-
-                const removeButton = row.querySelector('.remove-button');
-                removeButton.addEventListener('click', function() {
-                    row.remove();
-                    updateTotalPrice(); // Update total price when an item is removed
-                    saveOrderSummary();
-                });
-
-                orderSummary.appendChild(row);
-            }
-        });
-
-        totalPriceElem.textContent = totalPrice.toFixed(2);
-        saveOrderSummary();
-    });
-
-    document.getElementById('buyNow').addEventListener('click', function() {
-        const orderSummaryData = [];
-        const inputs = orderForm.querySelectorAll('input[type="number"]');
-        let totalPrice = 0;
-
-        inputs.forEach(input => {
-            const quantity = parseFloat(input.value);
-            if (quantity > 0) {
-                const name = input.getAttribute('data-name');
-                const price = parseFloat(input.getAttribute('data-price'));
-                const unit = input.getAttribute('data-unit');
-                const itemPrice = quantity * price;
-                totalPrice += itemPrice;
-                orderSummaryData.push({
-                    name: name,
-                    price: price,
-                    unit: unit,
-                    quantity: quantity,
-                    itemPrice: itemPrice.toFixed(2)
-                });
-            }
-        });
-
-        localStorage.setItem('orderSummary', JSON.stringify(orderSummaryData));
-        localStorage.setItem('totalPrice', totalPrice.toFixed(2));
-        window.location.href = 'checkout.html';
-    });
-
-    document.getElementById('clearCart').addEventListener('click', function() {
-        // Clear the order summary
-        orderSummary.innerHTML = '';
-
-        // Reset the total price
-        totalPriceElem.textContent = '0';
-
-        // Clear all input fields
-        const inputs = orderForm.querySelectorAll('input[type="number"]');
-        inputs.forEach(input => {
-            input.value = '';
-        });
-
-        // Clear the local storage for the cart
-        localStorage.removeItem('orderSummary');
-        localStorage.removeItem('totalPrice');
-    });
-
-    orderForm.addEventListener('click', function(event) {
-        if (event.target.classList.contains('add-to-cart')) {
-            const button = event.target;
-            const input = button.previousElementSibling;
-            const quantity = parseFloat(input.value);
-            if (quantity > 0) {
-                const name = button.getAttribute('data-name');
-                const price = parseFloat(button.getAttribute('data-price'));
-                const unit = button.getAttribute('data-unit');
-                const itemPrice = quantity * price;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${name}</td>
-                    <td>${quantity} ${unit}</td>
-                    <td>${itemPrice.toFixed(2)}</td>
-                    <td><button type="button" class="remove-button">Remove</button></td>
-                `;
-
-                const removeButton = row.querySelector('.remove-button');
-                removeButton.addEventListener('click', function() {
-                    row.remove();
-                    updateTotalPrice(); // Update total price when an item is removed
-                    saveOrderSummary();
-                });
-
-                orderSummary.appendChild(row);
-
-                const totalPrice = parseFloat(totalPriceElem.textContent) + itemPrice;
-                totalPriceElem.textContent = totalPrice.toFixed(2);
-
-                saveOrderSummary();
-            }
-        }
-    });
+    };
+    loadScripts();
 });
