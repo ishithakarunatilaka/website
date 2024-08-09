@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button type="button" class="add-to-cart" data-name="${item.name}" data-price="${item.price}" data-unit="${unit}">
                         <i class="fas fa-cart-plus"></i> Add to Cart
                     </button>
+                </div>
             `;
             section.appendChild(itemDiv);
         });
@@ -196,6 +197,55 @@ document.addEventListener('DOMContentLoaded', function() {
             alertDiv.classList.remove('show');
             alertDiv.classList.add('hidden');
         }, 3000);
+    });
+
+    document.getElementById('buyNow').addEventListener('click', function() {
+        // Navigate to checkout page
+        window.location.href = 'checkout.html'; // Change 'checkout.html' to your actual checkout page URL
+    });
+
+    document.getElementById('applyFavourites').addEventListener('click', function() {
+        // Load favourite items from local storage
+        const favouriteOrder = JSON.parse(localStorage.getItem('favouriteOrder')) || [];
+        orderSummary.innerHTML = ''; // Clear existing order summary
+
+        let totalPrice = 0;
+
+        favouriteOrder.forEach(item => {
+            const { name, price, unit, quantity } = item;
+            const itemPrice = quantity * price;
+            totalPrice += itemPrice;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${quantity} ${unit}</td>
+                <td>${itemPrice.toFixed(2)}</td>
+                <td><button type="button" class="remove-button">Remove</button></td>
+            `;
+
+            const removeButton = row.querySelector('.remove-button');
+            removeButton.addEventListener('click', function() {
+                row.remove();
+                updateTotalPrice(); // Update total price when an item is removed
+                saveOrderSummary();
+            });
+
+            orderSummary.appendChild(row);
+        });
+
+        totalPriceElem.textContent = totalPrice.toFixed(2);
+        saveOrderSummary();
+    });
+
+    document.getElementById('clearCart').addEventListener('click', function() {
+        // Clear the order summary
+        orderSummary.innerHTML = '';
+        totalPriceElem.textContent = '0.00';
+
+        // Remove saved order summary from local storage
+        localStorage.removeItem('orderSummary');
+        localStorage.removeItem('totalPrice');
     });
 
     const debouncedUpdateOrderSummary = debounce(updateOrderSummary, 300);
