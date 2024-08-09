@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webstore</title>
+    <link rel="stylesheet" href="order.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://kit.fontawesome.com/c4254e24a8.js"></script>
+</head>
+
+<body>
+    <header class="header1">
+        <nav>
+            <ul class="ul-1">
+                <li><i class="fas fa-truck" aria-hidden="true"></i><a href="#delivery-method">Delivery method</a></li>
+                <div class="divider" role="separator"></div>
+                <li><i class="fas fa-clock" aria-hidden="true"></i><a href="#opening-time">Opening time</a></li>
+                <div class="divider" role="separator"></div>
+                <li><i class="fas fa-calendar" aria-hidden="true"></i><a href="#our-special-events">Our special events</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Navigation bar -->
+    <header class="header2">
+        <img src="nav.jpg" alt="Store Navigation Image">
+        <div class="logo">
+            <p>BLOOM MART</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./about-us.html">About Us</a></li>
+                <li><a href="./loyalty.html">Registration</a></li>
+                <li><a href="./order.html">Order</a></li>
+                <li>
+                    <div class="dropdown">
+                        <a href="#" aria-haspopup="true" aria-expanded="false">Our Products</a>
+                        <div class="dropdown-content">
+                            <a href="./dairy.html">Dairy Products</a>
+                            <a href="./vegetable.html">Vegetables</a>
+                            <a href="./cosmetics.html">Cosmetics</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <form class="search-form" role="search">
+        <label for="search-products" class="visually-hidden"></label>
+        <input type="search" id="search-products" name="search" placeholder="Search products here..." aria-label="Search products">
+        <button type="submit" class="product-search-button"><i class="fas fa-search" aria-hidden="true"></i><span class="visually-hidden">Search</span></button>
+    </form>
+
+    <div class="branch-names">
+        <h1>Order Groceries</h1>
+        <form id="orderForm">
+            <h2 class="type">Fruits</h2>
+            <div class="section" id="fruitsSection"></div>
+
+            <h2 class="type">Vegetables</h2>
+            <div class="section" id="vegetablesSection"></div>
+
+            <h2 class="type">Dairy Produce</h2>
+            <div class="section" id="dairySection"></div>
+
+            <h2 class="type">Meat and Seafood</h2>
+            <div class="section" id="meatSeafoodSection"></div>
+
+            <h2 class="type">Baking and Cooking Ingredients</h2>
+            <div class="section" id="bakingSection"></div>
+
+            <div id="customAlert" class="custom-alert hidden" role="alert" aria-live="assertive">
+                <img id="alertImage" src="" alt="Alert Icon" class="alert-image">
+                <span id="alertMessage" class="alert-message"></span>
+            </div>
+
+            <h2 class="type">Order Summary</h2>
+            <table id="orderSummary">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity/Weight</th>
+                        <th scope="col">Price (RS.)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td id="totalPrice">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="button-1" type="button" id="addToFavourites">Add to Favourites</button>
+            <button class="button-1" type="button" id="applyFavourites">Apply Favourites</button>
+            <button class="button-1" type="button" id="buyNow">Buy Now</button>
+            <button class="button-1" type="button" id="clearCart">Clear Cart</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="row">
+            <div class="col">
+                <img src="logo.png" class="logo1" alt="Bloom Mart Logo">
+                <div class="payment-methods" aria-label="Payment methods">
+                    <i class="fab fa-cc-mastercard" aria-hidden="true"></i>
+                    <i class="fab fa-paypal" aria-hidden="true"></i>
+                    <i class="fab fa-cc-visa" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="col">
+                <h3>Office <div class="underline"></div></h3>
+                <p>Kandy Road</p>
+                <p>Central, Kandy</p>
+                <p>Kandy, 20/30, Sri Lanka</p>
+                <p class="email-id">ishiashinshana@gmail.com</p>
+                <h4>+94-123-456-78</h4>
+            </div>
+            <div class="col">
+                <h3>Links <div class="underline"></div></h3>
+                <ul>
+                    <li><a href="bloommart.html">Home</a></li>
+                    <li><a href="#">Our Products</a></li>
+                    <li><a href="#">Loyalty Registration</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col">
+                <h3>News <div class="underline"></div></h3>
+                <form class="f1">
+                    <label for="newsletter-email" class="visually-hidden">Enter your email</label>
+                    <i class='far fa-envelope' aria-hidden="true"></i>
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" required aria-label="Enter your email">
+                    <button type="submit"><i class="fas fa-arrow-right" aria-hidden="true"></i><span class="visually-hidden">Subscribe</span></button>
+                </form>
+                <div class="social-icons" aria-label="Social media links">
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    <i class="fab fa-pinterest" aria-hidden="true"></i>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <p class="copyright">Bloommart Supermarket @ 2024 - All rights reserved</p>
+    </footer>
+
+    <script src="order.js"></script>
+</body>
+
+</html>
